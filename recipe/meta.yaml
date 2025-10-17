@@ -10,17 +10,17 @@ source:
   sha256: 9dc1815e2895cfb3a48317b173b9f1eac9ba5549b36a847b5cc60c3bf82ecef1
 
 build:
-  noarch: python
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
+  skip: true  # [py<38]
 
 requirements:
   host:
-    - python >=3.8
+    - python
     - poetry-core
     - pip
   run:
-    - python >=3.8
+    - python
     - xmod
 
 test:
@@ -28,14 +28,22 @@ test:
     - runs
   commands:
     - pip check
+    - python -c "from importlib.metadata import version; assert(version('{{ name }}')=='{{ version }}')"
+    # Cannot run upstream tests due to lack of 'tdir' package
+    # - pytest -v test_runs.py
   requires:
     - pip
 
 about:
   home: https://github.com/rec/runs
-  summary: 🏃 Run a block of text as a subprocess  🏃
+  summary: Run a block of text as a subprocess
+  description: runs has improved versions of call(), check_call(), check_output(), and run() from Python's
+    subprocess module that handle multiple commands and blocks of text, fix some defects, and add some features.
   license: MIT
+  license_family: MIT
   license_file: LICENSE
+  dev_url: https://github.com/rec/runs
+  doc_url: https://github.com/rec/runs/blob/main/README.rst
 
 extra:
   recipe-maintainers:
