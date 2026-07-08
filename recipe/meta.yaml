@@ -1,23 +1,23 @@
 {% set name = "runs" %}
-{% set version = "1.2.2" %}
+{% set version = "1.3.0" %}
 
 package:
-  name: {{ name|lower }}
+  name: {{ name }}
   version: {{ version }}
 
 source:
-  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/runs-{{ version }}.tar.gz
-  sha256: 9dc1815e2895cfb3a48317b173b9f1eac9ba5549b36a847b5cc60c3bf82ecef1
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  sha256: cca304b631dbefec598c7bfbcfb50d6feace6d3a968734b67fd42d3c728f5a05
 
 build:
   script: {{ PYTHON }} -m pip install . -vv --no-deps --no-build-isolation
   number: 0
-  skip: true  # [py<38]
+  skip: true  # [py<310]
 
 requirements:
   host:
     - python
-    - poetry-core
+    - uv-build >=0.9.0,<0.10.0
     - pip
   run:
     - python
@@ -41,7 +41,7 @@ about:
     subprocess module that handle multiple commands and blocks of text, fix some defects, and add some features.
   license: MIT
   license_family: MIT
-  license_file: LICENSE
+  license_file: LICENSE.txt
   dev_url: https://github.com/rec/runs
   doc_url: https://github.com/rec/runs/blob/main/README.rst
 
